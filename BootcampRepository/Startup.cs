@@ -1,4 +1,5 @@
 using BootcampRepository.Models;
+using BootcampRepository.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,7 +29,7 @@ namespace BootcampRepository
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("defaultConnection"))
             );
-
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             services.AddControllersWithViews();
         }
