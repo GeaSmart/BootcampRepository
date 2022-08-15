@@ -12,21 +12,29 @@ namespace BootcampRepository.Controllers
     {
         private readonly IRepository<Student> repository;
 
+        [BindProperty]
+        public Student student { get; set; }
+
         public StudentController(IRepository<Student> repository)
         {
             this.repository = repository;
         }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            return View(new Student());
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> OnPostAsync(Student student)
+        public async Task<IActionResult> Save([FromForm] Student student)
         {
             if (ModelState.IsValid)
+            {
                 await repository.CreateAsync(student);
-            return Index();
+                return RedirectToAction("Index");
+            }
+            return View(student);
         }
     }
 }
