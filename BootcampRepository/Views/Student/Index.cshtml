@@ -1,31 +1,24 @@
-﻿@model Student
-@using Microsoft.AspNetCore.Mvc.RazorPages;
-@using BootcampRepository.Repository;
+﻿@model List<Student>
 
 @{
-    ViewData["Title"] = "Create a Student";
+    ViewData["Title"] = "Estudiantes";
 }
 
-<h1 class="bg-info text-white">Create a new Student</h1>
+<h1 class="bg-info text-white">Estudiantes</h1>
+<a asp-controller="Student" asp-action="AddOrEdit" class="btn btn-secondary">Añadir estudiante</a>
 
-<div asp-validation-summary="All" class="text-danger"></div>
-
-@*@using (Html.BeginForm("OnPostAsync", "Student", FormMethod.Post))
-    {*@
-<form action="/Student/Save" method="post">
-    <div class="form-group">
-        <label asp-for="@Model.Nombre"></label>
-        <input type="text" asp-for="@Model.Nombre" class="form-control" />
-        <span asp-validation-for="@Model.Nombre" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Calificacion"></label>
-        <input type="text" asp-for="@Model.Calificacion" class="form-control" />
-        <span asp-validation-for="@Model.Calificacion" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary" formmethod="post">Create</button>
-</form>
-
-@section Scripts{
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<table class="table table-sm table-bordered">
+    <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Calificación</th>
+    </tr>
+    @foreach (var estudiante in @Model)
+    {
+        <tr>
+            <td>@estudiante.Id</td>
+            <td>@estudiante.Nombre</td>
+            <td>@estudiante.Calificacion</td>
+        </tr>
+    }
+</table>

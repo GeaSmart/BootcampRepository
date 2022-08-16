@@ -1,4 +1,5 @@
 ﻿using BootcampRepository.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace BootcampRepository.Repository
 
             context.Add(entity);
             await context.SaveChangesAsync();
+        }
+
+        public async Task<List<T>> ReadAllAsync()
+        {
+            return await context.Set<T>().ToListAsync();
         }
     }
 }

@@ -12,8 +12,8 @@ namespace BootcampRepository.Controllers
     {
         private readonly IRepository<Student> repository;
 
-        [BindProperty]
-        public Student student { get; set; }
+        //[BindProperty]
+        //public Student student { get; set; }
 
         public StudentController(IRepository<Student> repository)
         {
@@ -21,13 +21,20 @@ namespace BootcampRepository.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            var listado = await repository.ReadAllAsync();
+            return View(listado);
+        }
+
+        [HttpGet]
+        public IActionResult AddOrEdit()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save([FromForm] Student student)
+        public async Task<IActionResult> AddOrEdit([FromForm] Student student)
         {
             if (ModelState.IsValid)
             {
