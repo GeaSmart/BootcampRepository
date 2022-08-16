@@ -5,13 +5,13 @@
 }
 
 <h1 class="bg-info text-white">Create a new Student</h1>
-<br />
+<hr />
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
 @*@using (Html.BeginForm("OnPostAsync", "Student", FormMethod.Post))
 {*@
-<form action="/Student/Save" method="post">
+<form action="/Student/AddOrEdit" method="post">
     <div class="form-group">
         <label asp-for="@Model.Nombre"></label>
         <input type="text" asp-for="@Model.Nombre" class="form-control" />

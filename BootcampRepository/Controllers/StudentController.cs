@@ -39,9 +39,8 @@ namespace BootcampRepository.Controllers
             if (ModelState.IsValid)
             {
                 await repository.CreateAsync(student);
-                return RedirectToAction("Index");
             }
-            return View(student);
+            return RedirectToAction("Index");
         }
     }
 }
