@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BootcampRepository.Models
 {
-    public class Student
-    {
-        public int Id { get; set; }
+    public class Student : BaseEntity
+    {        
         [Required]
         public string Nombre { get; set; }
         [Required]

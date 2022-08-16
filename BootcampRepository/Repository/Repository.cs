@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BootcampRepository.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly ApplicationDbContext context;
 
@@ -15,6 +15,7 @@ namespace BootcampRepository.Repository
         {
             this.context = context;
         }
+
         public async Task CreateAsync(T entity)
         {
             if (entity == null)
@@ -27,6 +28,20 @@ namespace BootcampRepository.Repository
         public async Task<List<T>> ReadAllAsync()
         {
             return await context.Set<T>().ToListAsync();
+        }
+
+        public async Task<T> ReadOneAsync(int id)
+        {
+            return await context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            context.Update(entity);
+            await context.SaveChangesAsync();
         }
     }
 }

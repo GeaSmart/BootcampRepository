@@ -9,5 +9,7 @@ namespace BootcampRepository.Repository
     {
         Task CreateAsync(T entity);
         Task<List<T>> ReadAllAsync();
+        Task<T> ReadOneAsync(int id);
+        Task UpdateAsync(T entity);
     }
 }

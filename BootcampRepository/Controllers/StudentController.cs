@@ -28,9 +28,10 @@ namespace BootcampRepository.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddOrEdit()
+        public async Task<IActionResult> AddOrEdit(int id = 0)
         {
-            return View();
+            var student = await repository.ReadOneAsync(id);
+            return View(student);
         }
 
         [HttpPost]
@@ -38,9 +39,13 @@ namespace BootcampRepository.Controllers
         {
             if (ModelState.IsValid)
             {
-                await repository.CreateAsync(student);
+                if(student.Id == 0)                
+                    await repository.CreateAsync(student);                
+                else                
+                    await repository.UpdateAsync(student);
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction("Index");
+            return View(student);
         }
     }
 }

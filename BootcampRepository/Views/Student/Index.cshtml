@@ -13,13 +13,19 @@
         <th>Id</th>
         <th>Nombre</th>
         <th>Calificación</th>
+        <th>Operaciones</th>
     </tr>
     @foreach (var estudiante in @Model)
     {
-        <tr>
-            <td>@estudiante.Id</td>
-            <td>@estudiante.Nombre</td>
-            <td>@estudiante.Calificacion</td>
-        </tr>
+    <tr>
+        <td>@estudiante.Id</td>
+        <td>@estudiante.Nombre</td>
+        <td>@estudiante.Calificacion</td>
+        <td>
+            <a asp-action="AddOrEdit" asp-route-id="@estudiante.Id"><i class="fa fa-marker fa-lg"></i></a>
+            <a asp-action="Delete" asp-route-id="@estudiante.Id" class="text-danger ml-1"
+               onclick="return confirm('¿Está seguro que desea eliminar este registro?')"><i class="fa fa-trash-alt fa-lg"></i></a>
+        </td>
+    </tr>
     }
 </table>
