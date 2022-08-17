@@ -11,5 +11,6 @@ namespace BootcampRepository.Repository
         Task<List<T>> ReadAllAsync();
         Task<T> ReadOneAsync(int id);
         Task UpdateAsync(T entity);
+        Task DeleteAsync(int id);
     }
 }

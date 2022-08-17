@@ -47,5 +47,11 @@ namespace BootcampRepository.Controllers
             }
             return View(student);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await repository.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

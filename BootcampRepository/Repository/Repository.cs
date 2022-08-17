@@ -43,5 +43,15 @@ namespace BootcampRepository.Repository
             context.Update(entity);
             await context.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var student = await context.Set<T>().FindAsync(id);
+            if (student == null)
+                throw new ArgumentException(nameof(student));
+            
+            context.Set<T>().Remove(student);
+            await context.SaveChangesAsync();
+        }
     }
 }
