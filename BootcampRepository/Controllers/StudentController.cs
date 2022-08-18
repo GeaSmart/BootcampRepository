@@ -1,9 +1,13 @@
-﻿using BootcampRepository.Models;
+﻿using BootcampRepository.DTO;
+using BootcampRepository.Models;
 using BootcampRepository.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BootcampRepository.Controllers
@@ -11,9 +15,6 @@ namespace BootcampRepository.Controllers
     public class StudentController : Controller
     {
         private readonly IRepository<Student> repository;
-
-        //[BindProperty]
-        //public Student student { get; set; }
 
         public StudentController(IRepository<Student> repository)
         {
@@ -23,8 +24,19 @@ namespace BootcampRepository.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var listado = await repository.ReadAllAsync();
-            return View(listado);
+            var dto = new StudentSearchDTO();
+            if (TempData["myObject"] != null)
+            {                
+                dto = JsonConvert.DeserializeObject<StudentSearchDTO>((string)TempData["myObject"]);
+            }
+            else
+            {
+                dto.EstudiantesFiltrados = await repository.ReadAllAsync();
+            }
+            //if (dto.EstudiantesFiltrados == null)
+               
+            //var listadoBusqueda = new StudentSearchDTO() { EstudiantesFiltrados = listado };
+            return View(dto);
         }
 
         [HttpGet]
@@ -52,6 +64,23 @@ namespace BootcampRepository.Controllers
         {
             await repository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Search([FromForm] StudentSearchDTO studentDTO)
+        {
+            var listado = new List<Student>();
+            Expression<Func<Student, bool>> filter = m => m.Nombre.Contains(studentDTO.Estudiante.Nombre);
+
+            if (string.IsNullOrEmpty(studentDTO.Estudiante.Nombre))
+                listado = await repository.ReadAllAsync();
+            else
+                listado = await repository.ReadAllAsync(filter);
+            
+            var listadoBusqueda = new StudentSearchDTO() { Estudiante = studentDTO.Estudiante, EstudiantesFiltrados = listado };
+            TempData["myObject"] = JsonConvert.SerializeObject(listadoBusqueda);
+
+            return RedirectToAction("Index");
         }
     }
 }

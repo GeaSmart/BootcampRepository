@@ -11,8 +11,9 @@
 
 @*@using (Html.BeginForm("OnPostAsync", "Student", FormMethod.Post))
 {*@
+
 <form action="/Student/AddOrEdit" method="post">
-    <input type="hidden" asp-for="@Model.Id" />
+    <input type="hidden" asp-for="@Model.Id" value="@(Model==null?0:Model.Id)"/>
     <div class="form-group">
         <label asp-for="@Model.Nombre"></label>
         <input type="text" asp-for="@Model.Nombre" class="form-control" />
@@ -23,7 +24,7 @@
         <input type="text" asp-for="@Model.Calificacion" class="form-control" />
         <span asp-validation-for="@Model.Calificacion" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary" formmethod="post">Create</button>
+    <button type="submit" class="btn btn-primary" formmethod="post">Enviar</button>
 </form>
 
 @section Scripts{

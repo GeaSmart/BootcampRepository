@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BootcampRepository.Repository
@@ -28,6 +29,10 @@ namespace BootcampRepository.Repository
         public async Task<List<T>> ReadAllAsync()
         {
             return await context.Set<T>().ToListAsync();
+        }
+        public async Task<List<T>> ReadAllAsync(Expression<Func<T, bool>> filter)
+        {
+            return await context.Set<T>().Where(filter).ToListAsync();
         }
 
         public async Task<T> ReadOneAsync(int id)
